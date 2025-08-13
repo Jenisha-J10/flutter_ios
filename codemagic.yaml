@@ -1,6 +1,7 @@
 workflows:
-  ios-workflow:
-    name: Build iOS IPA
+  ios_demo_build:
+    name: iOS Unsigned IPA (for sharing)
+    instance_type: mac_mini_m1
     max_build_duration: 60
     environment:
       flutter: stable
@@ -8,17 +9,19 @@ workflows:
     scripts:
       - name: Install dependencies
         script: |
+          flutter clean
           flutter pub get
-      - name: Build iOS
+      - name: Build iOS (unsigned)
         script: |
-          flutter build ios --release
-    publishing:
-      scripts:
-        - name: Package IPA
-          script: |
-            echo "Codemagic will automatically export the IPA"
+          flutter build ios --release --no-codesign
+      - name: Package .ipa manually
+        script: |
+          cd build/ios/iphoneos
+          rm -rf Payload
+          mkdir Payload
+          # If your app folder isn't Runner.app, replace the name below
+          cp -R "Runner.app" Payload/
+          # Create demo.ipa
+          zip -r demo.ipa Payload
     artifacts:
-      - build/ios/ipa/*.ipa
-    triggering:
-      events:
-        - push
+      - build/ios/iphoneos/demo.ipa

@@ -12,9 +12,11 @@ workflows:
       - name: Build iOS
         script: |
           flutter build ios --release
-    ios:
-      code_signing:
-        use_codemagic_generated: true
+    publishing:
+      scripts:
+        - name: Package IPA
+          script: |
+            echo "Codemagic will automatically export the IPA"
     artifacts:
       - build/ios/ipa/*.ipa
     triggering:

@@ -1,5 +1,5 @@
 workflows:
-  ios-workflow:
+  ios-release-workflow:
     environment:
       flutter: stable
       xcode: latest
@@ -7,8 +7,8 @@ workflows:
       - name: Install dependencies
         script: |
           flutter pub get
-      - name: Build iOS
+      - name: Build iOS for simulator
         script: |
-          flutter build ios --release
+          flutter build ios --simulator
     artifacts:
-      - build/ios/ipa/*.ipa
+      - build/ios/iphonesimulator/*.app

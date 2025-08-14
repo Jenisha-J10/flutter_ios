@@ -1,5 +1,6 @@
 workflows:
-  ios-release-workflow:
+  ios-workflow:
+    name: Build iOS Simulator App
     environment:
       flutter: stable
       xcode: latest
@@ -7,8 +8,15 @@ workflows:
       - name: Install dependencies
         script: |
           flutter pub get
-      - name: Build iOS Release
+      - name: Build iOS simulator app
         script: |
-          flutter build ios --release --no-codesign
+          flutter build ios --simulator --release
+      - name: Zip Runner.app
+        script: |
+          cd build/ios/iphonesimulator
+          zip -r Runner.zip Runner.app
     artifacts:
-      - build/ios/ipa/*.ipa
+      - build/ios/iphonesimulator/Runner.zip
+    triggering:
+      events:
+        - push

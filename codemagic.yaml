@@ -12,5 +12,3 @@ workflows:
           flutter build ios --release
     artifacts:
       - build/ios/ipa/*.ipa
-    triggers:
-      - push

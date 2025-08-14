@@ -1,27 +1,17 @@
 workflows:
-  ios_demo_build:
-    name: iOS Unsigned IPA (for sharing)
-    instance_type: mac_mini_m1
-    max_build_duration: 60
+  ios-simulator:
+    name: iOS Simulator Build
     environment:
       flutter: stable
       xcode: latest
     scripts:
-      - name: Install dependencies
+      - name: Get packages
+        script: flutter pub get
+      - name: Build iOS simulator app
+        script: flutter build ios --simulator --release
+      - name: Zip Runner.app
         script: |
-          flutter clean
-          flutter pub get
-      - name: Build iOS (unsigned)
-        script: |
-          flutter build ios --release --no-codesign
-      - name: Package .ipa manually
-        script: |
-          cd build/ios/iphoneos
-          rm -rf Payload
-          mkdir Payload
-          # If your app folder isn't Runner.app, replace the name below
-          cp -R "Runner.app" Payload/
-          # Create demo.ipa
-          zip -r demo.ipa Payload
+          cd build/ios/iphonesimulator
+          zip -r Runner.zip Runner.app
     artifacts:
-      - build/ios/iphoneos/demo.ipa
+      - build/ios/iphonesimulator/Runner.zip

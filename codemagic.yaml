@@ -8,7 +8,7 @@ workflows:
       - name: Get packages
         script: flutter pub get
       - name: Build iOS simulator app
-        script: flutter build ios --simulator --release
+        script: flutter build ios --simulator --debug
       - name: Zip Runner.app
         script: |
           cd build/ios/iphonesimulator

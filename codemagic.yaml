@@ -12,9 +12,6 @@ workflows:
       - name: Build iOS
         script: |
           flutter build ios --release
-    ios:
-      code_signing:
-        use_codemagic_generated: true
     artifacts:
       - build/ios/ipa/*.ipa
     triggering:
